@@ -51,4 +51,12 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 
+      - name: Generate and Mask DB Password
+        run: |
+          TEMP_PASS=$(openssl rand -base64 12)
 
+          # Tell GitHub Actions: "If you ever see this exact string in the logs, censor it!"
+          echo "::add-mask::$TEMP_PASS"
+
+          # Now, if we try to print it, it will output as ***
+          echo "The password is $TEMP_PASS"
